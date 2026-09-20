@@ -15,14 +15,16 @@ Or: **Developer: Install Extension from Location…** → cloned folder → **Re
 
 ## Explorer badges
 
-Keeps your file icon theme. Zone roots get a codicon on the **right**:
+Keeps your file icon theme. Zone **roots** get a short mark on the **right** (from `agpiko.workspace.json`):
 
 | Zone | Badge |
 |------|--------|
-| `src/`, `scripts/`, product paths | lock |
-| `data/`, `docs/` | gear |
-| `public/` (merge) | git-merge |
+| `src/`, `scripts/`, product paths | ✕ |
+| `data/`, `docs/` | ⌀ |
+| `public/` (merge) | ~ |
 | `site/` | none |
+
+Ignored-by-git files (e.g. under `data/`) may show a separate Git “ignored” icon — that is not Agpiko.
 
 ## Commands
 

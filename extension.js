@@ -307,6 +307,7 @@ async function runIntegrityAudit() {
 
 /**
  * Right-side explorer badge for zone roots only. Does not replace file icons.
+ * Uses short text badges (ThemeIcon badges are easy to miss in Cursor).
  * @param {vscode.Uri} uri
  * @returns {vscode.FileDecoration | undefined}
  */
@@ -327,17 +328,14 @@ function decorationForUri(uri) {
   const hint =
     (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) || "";
 
-  /** @type {vscode.ThemeIcon} */
-  let icon;
-  if (zone.clientEdit === "merge") {
-    icon = new vscode.ThemeIcon("git-merge");
-  } else if (zone.role === "runtime" || zone.role === "origin-docs") {
-    icon = new vscode.ThemeIcon("gear");
-  } else {
-    icon = new vscode.ThemeIcon("lock");
+  let badge = String(zone.badge || "").trim().slice(0, 2);
+  if (!badge) {
+    if (zone.clientEdit === "merge") badge = "~";
+    else if (zone.role === "runtime" || zone.role === "origin-docs") badge = "⌀";
+    else badge = "✕";
   }
 
-  return new vscode.FileDecoration(icon, hint || label);
+  return new vscode.FileDecoration(badge, hint || label);
 }
 
 function createZoneDecorationProvider() {
