@@ -317,8 +317,8 @@ function decorationForUri(uri) {
   const hint =
     (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) || label;
 
-  // 1–2 char string badges (ThemeIcon badges are invisible in Cursor).
-  const badge = zone.clientEdit === "merge" ? "~" : "🔒";
+  // String badge (ThemeIcon is invisible in Cursor). \u{1F512} = lock.
+  const badge = zone.clientEdit === "merge" ? "~" : "\u{1F512}";
   return new vscode.FileDecoration(badge, hint);
 }
 
