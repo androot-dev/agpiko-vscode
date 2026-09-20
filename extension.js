@@ -1,6 +1,6 @@
 /**
  * Agpiko Workspace — zone map + integrity audit.
- * Explorer: ThemeIcon badge on the right of zone folders (keeps your file icon theme).
+ * Explorer: string lock badge on product paths (keeps your file icon theme).
  */
 const vscode = require("vscode");
 const fs = require("fs");
@@ -67,17 +67,6 @@ function matchZone(relPath, zones) {
     }
   }
   return best;
-}
-
-function exactZone(relPath, zones) {
-  const norm = relPath.replace(/\\/g, "/").replace(/^\.\//, "");
-  for (const zone of zones) {
-    const z = String(zone.path || "")
-      .replace(/\\/g, "/")
-      .replace(/\/$/, "");
-    if (z && norm === z) return zone;
-  }
-  return null;
 }
 
 function relativeToRoot(uri, root) {
@@ -307,6 +296,7 @@ async function runIntegrityAudit() {
 
 /**
  * Right-side explorer badge for every path under a non-editable zone.
+ * Cursor/VS Code: string badges render; ThemeIcon badges often show nothing.
  * @param {vscode.Uri} uri
  * @returns {vscode.FileDecoration | undefined}
  */
@@ -325,18 +315,11 @@ function decorationForUri(uri) {
     (zone.label && (zone.label[lang] || zone.label.es || zone.label.en)) ||
     zone.path;
   const hint =
-    (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) ||
-    label;
+    (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) || label;
 
-  /** @type {vscode.ThemeIcon} */
-  let icon;
-  if (zone.clientEdit === "merge") {
-    icon = new vscode.ThemeIcon("git-merge");
-  } else {
-    icon = new vscode.ThemeIcon("lock");
-  }
-
-  return new vscode.FileDecoration(icon, hint);
+  // 1–2 char string badges (ThemeIcon badges are invisible in Cursor).
+  const badge = zone.clientEdit === "merge" ? "~" : "🔒";
+  return new vscode.FileDecoration(badge, hint);
 }
 
 function createZoneDecorationProvider() {
