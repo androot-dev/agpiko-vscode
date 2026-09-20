@@ -1,8 +1,8 @@
 {
   "name": "agpiko-workspace",
   "displayName": "Agpiko Workspace",
-  "description": "Agpiko install zones and product integrity. Right-side zone badges on folder roots.",
-  "version": "0.4.1",
+  "description": "Agpiko install zones and product integrity. Lock badges on product paths.",
+  "version": "0.4.2",
   "publisher": "agpiko",
   "engines": {
     "vscode": "^1.85.0"

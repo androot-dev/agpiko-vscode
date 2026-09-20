@@ -15,16 +15,7 @@ Or: **Developer: Install Extension from Location…** → cloned folder → **Re
 
 ## Explorer badges
 
-Keeps your file icon theme. Zone **roots** get a short mark on the **right** (from `agpiko.workspace.json`):
-
-| Zone | Badge |
-|------|--------|
-| `src/`, `scripts/`, product paths | ✕ |
-| `data/`, `docs/` | ⌀ |
-| `public/` (merge) | ~ |
-| `site/` | none |
-
-Ignored-by-git files (e.g. under `data/`) may show a separate Git “ignored” icon — that is not Agpiko.
+Keeps your file icon theme. Paths under non-editable zones get a **lock** on the right (folders and files). Merge zone (`public/`) uses a merge mark. `site/` has none.
 
 ## Commands
 

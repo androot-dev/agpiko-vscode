@@ -306,8 +306,7 @@ async function runIntegrityAudit() {
 }
 
 /**
- * Right-side explorer badge for zone roots only. Does not replace file icons.
- * Uses short text badges (ThemeIcon badges are easy to miss in Cursor).
+ * Right-side explorer badge for every path under a non-editable zone.
  * @param {vscode.Uri} uri
  * @returns {vscode.FileDecoration | undefined}
  */
@@ -317,7 +316,7 @@ function decorationForUri(uri) {
   if (!ctx) return undefined;
   const rel = relativeToRoot(uri, ctx.root);
   if (!rel) return undefined;
-  const zone = exactZone(rel, ctx.layout.zones);
+  const zone = matchZone(rel, ctx.layout.zones);
   if (!zone || zone.clientEdit === true) return undefined;
 
   const lang =
@@ -326,16 +325,18 @@ function decorationForUri(uri) {
     (zone.label && (zone.label[lang] || zone.label.es || zone.label.en)) ||
     zone.path;
   const hint =
-    (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) || "";
+    (zone.hint && (zone.hint[lang] || zone.hint.es || zone.hint.en)) ||
+    label;
 
-  let badge = String(zone.badge || "").trim().slice(0, 2);
-  if (!badge) {
-    if (zone.clientEdit === "merge") badge = "~";
-    else if (zone.role === "runtime" || zone.role === "origin-docs") badge = "⌀";
-    else badge = "✕";
+  /** @type {vscode.ThemeIcon} */
+  let icon;
+  if (zone.clientEdit === "merge") {
+    icon = new vscode.ThemeIcon("git-merge");
+  } else {
+    icon = new vscode.ThemeIcon("lock");
   }
 
-  return new vscode.FileDecoration(badge, hint || label);
+  return new vscode.FileDecoration(icon, hint);
 }
 
 function createZoneDecorationProvider() {
