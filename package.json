@@ -1,0 +1,33 @@
+{
+  "name": "agpiko-workspace",
+  "displayName": "Agpiko Workspace",
+  "description": "Agpiko install zones and product integrity. Right-side lock/gear badges on zone folders.",
+  "version": "0.4.0",
+  "publisher": "agpiko",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+    "workspaceContains:agpiko.workspace.json",
+    "workspaceContains:AGENTS.md"
+  ],
+  "main": "./extension.js",
+  "icon": "media/icon.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "agpiko.workspace.reload",
+        "title": "Agpiko: Reload workspace zones"
+      },
+      {
+        "command": "agpiko.workspace.showZone",
+        "title": "Agpiko: Show zone for current file"
+      },
+      {
+        "command": "agpiko.integrity.verify",
+        "title": "Agpiko: Verify product integrity"
+      }
+    ]
+  }
+}
